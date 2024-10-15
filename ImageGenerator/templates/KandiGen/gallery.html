@@ -1,0 +1,17 @@
+{% extends "KandiGen\menu.html" %}
+{% block title %}
+    {{ block.super }} - Галерея картинок
+{% endblock %}
+
+{% block pagename %}
+    Галерея картинок
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+        {% include 'KandiGen\paginator.html' %}
+
+        {% include 'KandiGen\gall_templ.html' %}
+
+        {% include 'KandiGen\paginator.html' %}
+{% endblock %}

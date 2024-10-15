@@ -1,0 +1,80 @@
+{% extends "KandiGen\menu.html" %}
+{% block title %}
+    {{ block.super }} - Удаление
+{% endblock %}
+
+{% block pagename %}
+    Удаление картинок
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h2>Выберите картинки для удаления</h2>
+    <form method="post" id="myForm">
+        {% csrf_token %}
+    <div class="align_center">
+      <p class="align_left">
+    <button onclick="return confirm('Удалить выбранные картинки?');" type="submit" name="image_del" value="checked">
+        Удалить выбранные
+    </button>
+      </p>
+    <table>
+        <thead>
+            <tr class="table_frame">
+                <th class="table_frame td_frame align_left blue-text" >
+                    <h2>Картинка</h2>
+                </th>
+                <th class="table_frame td_frame align_left blue-text" >
+                    <h2>Запрос</h2>
+                </th>
+                <th class="table_frame td_frame align_left blue-text" >
+                    <h2>Действие</h2>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for itm in image_feeds %}
+        <tr class="table_frame">
+            <th class="table_frame td_frame" >
+                <label>
+                    <input type="checkbox" name="i{{ itm.id }}" value="i{{ itm.id }}">
+<!--                           onclick="document.getElementById('myForm').submit();">-->
+                        <a href="{{ itm.image.url }}" target="_blank">
+                            <img src="{{ itm.image.url }}"
+                                 title="{{ itm.query_text }} &#10Автор: {{ itm.user }}"
+                                 style="width: 100px; height: 100px;">
+                        </a>
+                    </label>
+            </th>
+            <th class="table_frame td_frame">
+                <h3 class="blue-text">
+                    {{ itm.query_text }}
+                </h3>
+            </th>
+            <th class="table_frame td_frame">
+
+                <button onclick="return confirm('Удалить?');" type="submit" name="image_del" value="{{itm.id}}">
+                    Удалить
+                </button>
+
+            </th>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+      <p class="align_left">
+    <button onclick="return confirm('Удалить выбранные картинки?');" type="submit" name="image_del" value="checked">
+        Удалить выбранные
+    </button>
+      </p>
+
+    </div>
+    </form>
+
+<!--<h2>Страница в разработке</h2>-->
+<!--<div class="align_center">-->
+<!--<img src="/media/images/gen.jpg">-->
+<!--</div>-->
+{% endblock %}

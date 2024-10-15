@@ -1,0 +1,65 @@
+{% extends "KandiGen\menu.html" %}
+{% block title %}
+    {{ block.super }} - Вход/Выход
+{% endblock %}
+
+{% block pagename %}
+    {% if user.is_authenticated %}
+        Выход из системы
+    {% else %}
+        Вход в систему
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3 class="blue-text">
+        {{ message }}
+    </h3>
+    <h3 class="red-text">
+        {{ error_rus }}
+    </h3>
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}" name="logout">
+            {% csrf_token %}
+            <h3> Пользователь {{ user }}
+                <button type="submit" onclick="return confirm('Выходим?');"
+                        name="logout" value="OK">Выход</button>
+            </h3>
+        </form>
+    {% endif %}
+
+    <form method="post" name="login">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Login</button>
+    </form>
+    <br>
+    <a href="{% url 'register' %}">Регистрация</a>
+
+
+<!--    <form method="post">-->
+<!--    {% csrf_token %}-->
+<!--    <table>-->
+<!--        <tbody>-->
+<!--            <tr>-->
+<!--                <th align="right">-->
+<!--                    <label>Введите логин:</label>-->
+<!--                </th>-->
+<!--                <td>-->
+<!--                    <input type="text" name="username" maxlength="30" required>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--            <tr>-->
+<!--                <th align="right">-->
+<!--                    <label>Введите пароль:</label>-->
+<!--                </th>-->
+<!--                <td>-->
+<!--                    <input type="password" name="password" required>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <button type="submit">Вход</button>-->
+<!--    </form>-->
+{% endblock %}

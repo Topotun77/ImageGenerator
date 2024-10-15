@@ -1,0 +1,130 @@
+{% extends "KandiGen\menu.html" %}
+{% block refresh %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {packages: ['corechart', 'bar']});
+        google.charts.setOnLoadCallback(drawBasic);
+
+        function drawBasic() {
+
+              var data = new google.visualization.DataTable();
+              data.addColumn('string', 'Слово');
+              data.addColumn('number', 'Количество');
+
+              data.addRows([
+                {% for itm in words_gist %} ['{{ itm }}', {{ itm.count }}],
+                {% endfor %}
+              ]);
+
+              var options = {
+                {% if not day_team %}
+                  backgroundColor: '#0a0a0a',
+                  titleTextStyle: {color: '#ffffff'},
+                {% endif %}
+                legend: 'none',
+                title: 'Статистика количества слов в запросах по популярности (первые 20 слов)',
+                hAxis: {
+                  title: 'Слова',
+                  {% if not day_team %}
+                    textStyle: {color: '#ffffff'},
+                    titleTextStyle: {color: '#ffffff'},
+                  {% endif %}
+                },
+                vAxis: {
+                  title: 'Количество слов',
+                  {% if not day_team %}
+                    textStyle: {color: '#ffffff'},
+                    titleTextStyle: {color: '#ffffff'},
+                  {% endif %}
+                }
+              };
+
+              var chart = new google.visualization.ColumnChart(
+                document.getElementById('chart_div'));
+
+              chart.draw(data, options);
+            }
+
+    </script>
+{% endblock %}
+
+{% block title %}
+    {{ block.super }} - Статистика
+{% endblock %}
+
+{% block pagename %}
+    Статистика
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <div id="chart_div" style="height: 500px;"></div>
+    <div class="align_center">
+    <br>
+    <h2 class="align_left">Количество слов в запросах по популярности</h2>
+    <table>
+        <thead>
+            <tr class="table_frame">
+                <th class="table_frame td_frame align_left blue-text" >
+                    <h2>Слово в запросе</h2>
+                </th>
+                <th class="table_frame td_frame align_left blue-text" >
+                    <h2>Количество упоминаний</h2>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for itm in words %}
+        <tr class="table_frame">
+            <th class="table_frame td_frame" >
+                <h3 class="blue-text">
+                    {{itm}}
+                </h3>
+            </th>
+            <th class="table_frame td_frame">
+                <h3> {{itm.count}}</h3>
+            </th>
+        </tr>
+        {% endfor %}
+        </tbody>
+
+        <tfoot class="table_frame">
+            <tr class="table_frame">
+                <th class="table_frame td_frame align_left blue-text" >
+                    <h2>Итого</h2>
+                </th>
+                <th class="table_frame td_frame align_left" >
+                    <h2>{{ sum_word }}</h2>
+                </th>
+            </tr>
+        </tfoot>
+
+    </table>
+    </div>
+
+    <h2 class="align_left"> <a href="/create_stat/?orm_frame=django" onclick="return confirm('Точно запускаем? Это может занять несколько минут.');">
+        Пересчитать статистику с помощью ORM Django</a>
+        <br> (Последний раз выполнялось: {{ django }})
+    </h2>
+    <h2 class="align_left"> <a href="/create_stat/?orm_frame=django_v2" onclick="return confirm('Точно запускаем? Это может занять несколько минут.');">
+        Пересчитать статистику с помощью ORM Django методом единого внесения данных в БД </a>
+        <br> (Последний раз выполнялось: {{ django_v2 }})
+    </h2>
+    <h2 class="align_left"> <a href="/create_stat/?orm_frame=SQLAlchemy" onclick="return confirm('Точно запускаем? Это может занять несколько минут.');">
+        Пересчитать статистику с помощью SQLAlchemy</a>
+        <br> (Последний раз выполнялось: {{ SQLAlchemy }})
+    </h2>
+    <h2 class="align_left"> <a href="/create_stat/?orm_frame=TortoiseORM" onclick="return confirm('Точно запускаем? Это может занять несколько минут.');">
+        Пересчитать статистику с помощью Tortoise ORM</a><span class="red-text"> !!! в разработке !!!</span>
+        <br> (Последний раз выполнялось: {{ TortoiseORM }})
+    </h2>
+
+<!--<h2>Страница в разработке</h2>-->
+<!--<div class="align_center">-->
+<!--<img src="/media/images/gen.jpg">-->
+<!--</div>-->
+<!--                backgroundColor: '#000000',-->
+<!--                titleTextStyle: {color: '#ffffff'},-->
+
+{% endblock %}

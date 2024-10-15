@@ -1,0 +1,25 @@
+{% extends "KandiGen\menu.html" %}
+{% block title %}
+    {{ block.super }} - Регистрация
+{% endblock %}
+
+{% block pagename %}
+    Регистрация пользователя
+{% endblock %}
+
+{% block content %}
+    {{ block.super }}
+    <h3 class="blue-text">
+        {{ message }}
+    </h3>
+    <h3 class="red-text">
+        {{ error_rus }}
+    </h3>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Регистрация пользователя</button>
+    </form>
+    <br>
+{% endblock %}

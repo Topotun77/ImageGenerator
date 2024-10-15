@@ -1,0 +1,97 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    {% block refresh %}
+<!--    <meta http-equiv="Refresh" content="10" />-->
+    {% endblock %}
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+            Генератор картинок
+        {% endblock %}
+    </title>
+    {% if day_team %}
+      <link rel="stylesheet" type="text/css" href='{% static "style-day.css" %}'>
+    {% else %}
+      <link rel="stylesheet" type="text/css" href='{% static "style-night.css" %}'>
+    {% endif %}
+
+</head>
+<body>
+    <aside class="aside_left">
+        {% if user.is_authenticated %}
+        <form method="post">
+        {% csrf_token %}
+        <h2 class="align_left">
+            <a href="?day={{day_team}}">
+                {% if day_team %}
+                  <img src="/static/day.png" width="40">
+                {% else %}
+                  <img src="/static/night.png" width="40">
+                {% endif %}
+            </a>
+        </h2>
+        </form>
+        {% else %}
+        <p></p>
+        {% endif %}
+    </aside>
+
+    <aside>
+        {% if user.is_authenticated %}
+        <h2 class="align_right">
+            <span class="small_font">
+                Logins as:
+            </span>
+            <a href="/gen/">
+                {{ user }}
+            </a>
+        </h2>
+        {% endif %}
+    </aside>
+
+    <header>
+            <div>
+                <h1>
+                    {% block pagename %}
+                        Главная страница
+                    {% endblock %}
+                </h1>
+
+            </div>
+    </header>
+    <br>
+    <nav>
+        {% block menu %}
+            <div class="align_center">
+                <h2 class="inline-block padding_font"><a href="{% url 'start' %}">Главная</a></h2>
+                <h2 class="inline-block padding_font"><a href="{% url 'gallery' %}">Галерея</a></h2>
+                <h2 class="inline-block padding_font"><a href="{% url 'stat' %}">Статистика</a></h2>
+                {% if user.is_authenticated %}
+                    <h2 class="inline-block padding_font"><a href="{% url 'gen' %}">Генерация</a></h2>
+                    <h2 class="inline-block padding_font"><a href="{% url 'del_image' %}">Удаление</a></h2>
+                    <h2 class="inline-block padding_font" onclick="return confirm('Выходим?');">
+                        <a href="{% url 'logout' %}">Выход</a>
+                    </h2>
+                {% else %}
+                    <h2 class="inline-block padding_font"><a href="{% url 'login' %}">Вход</a></h2>
+                    <h2 class="inline-block padding_font"><a href="{% url 'register' %}">Регистрация</a></h2>
+                {% endif %}
+            </div>
+        {% endblock %}
+    </nav>
+    <nav>
+        {% block content %}
+            <hr>
+        {% endblock %}
+    </nav>
+    <hr>
+    <h2>
+        Генератор картинок - <a href="https://www.sberbank.com/promo/kandinsky/" target="_blank">Kandinsky 3.0 (c)</a>
+    </h2>
+    📩 Пишите нам на <a href="mailto:mail@mail.ru">почту</a>
+    <br>
+    ☎️ Звоните нам на телефон
+</body>
+</html>

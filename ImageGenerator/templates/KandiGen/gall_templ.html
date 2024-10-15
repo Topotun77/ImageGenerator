@@ -1,0 +1,13 @@
+<div class="align_center">
+{% if image_feeds %}
+        {% for feed in image_feeds %}
+        <a href="{{ feed.image.url }}" target="_blank">
+            <img src="{{ feed.image.url }}"
+                 title="{{ feed.query_text }} &#10Автор: {{ feed.user }}"
+                 style="width: 300px; height: 300px;">
+        </a>
+    {% endfor %}
+{% else %}
+    <h1>Ваша галерея пуста (((</h1>
+{% endif %}
+</div>
