@@ -1,3 +1,5 @@
+import asyncio
+
 from django.core.paginator import Paginator
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
@@ -6,7 +8,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest
 from .forms import ImageGenForm
 from . import crud_django
-# from . import crud_SQLalchemy as crud_django
 from . import utilities
 from __main__ import execut_time
 
@@ -124,7 +125,6 @@ def gen(request: HttpRequest):
                     'error_rus': 'Ошибка при генерации изображения ((('
                 }
                 crud_django.delete_image(image.id)
-            # return redirect('gen')
     else:
         form = ImageGenForm()
 
@@ -169,6 +169,8 @@ def recreate_stat(request: HttpRequest):
             orm_frame = 'django'
         func = utilities.decor_time(orm_frame)
         func = func(utilities.fill_in_table_words)
-        func()
-    # utilities.fill_in_table_words()
+        if 'TortoiseORM' in orm_frame:
+            asyncio.run(func())
+        else:
+            func()
     return redirect('stat')

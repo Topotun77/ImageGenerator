@@ -9,6 +9,7 @@ execut_time = {
     'django_v2': 0,
     'SQLAlchemy': 0,
     'TortoiseORM': 0,
+    'TortoiseORM_v2': 0,
 }
 
 logging.basicConfig(

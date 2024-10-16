@@ -1,13 +1,13 @@
 import os
 import logging
 from datetime import datetime
-# from qsstats import QuerySetStats
 
 from django.conf import settings
 from django.http import HttpRequest
 from .crud_django import (get_team_for_user, set_team_for_user, TEAM_DEFAULT,
                           add_word, delete_all_words, get_images)
 from .crud_SQLalchemy import create_stat_SQLalchemy
+from .crud_TortoiseORM import create_stat_TortoiseORM
 from . import kandinsky
 from __main__ import execut_time
 
@@ -36,28 +36,46 @@ def decor_time(crud_func=None):
     :return: полученную обернутую функцию
     """
     def decor(func):
-        def execution_time(*args, **kwargs):
-            rez = False
-            start = datetime.now()
-            if crud_func == 'django':
-                rez = func(*args, **kwargs)
-            elif crud_func == 'SQLAlchemy':
-                rez = create_stat_SQLalchemy('sqlite:///db.sqlite3')[0]
-            elif crud_func == 'TortoiseORM':
-                return False
-            elif crud_func == 'django_v2':
-                rez = fill_in_table_words_v2()
-            else:
-                rez = func(*args, **kwargs)
-            end = datetime.now()
-            duration = end - start
-            execut_time[crud_func] = duration
-            str_ = f'Функция {func.__name__ if func else "от "}("{crud_func}") выполнялась: {duration}'
-            print(str_)
-            logging.info(str_)
-            return rez
+        if 'TortoiseORM' in crud_func:
+            async def execution_time(*args, **kwargs):
+                rez = False
+                start = datetime.now()
+                if crud_func == 'TortoiseORM':
+                    rez = await create_stat_TortoiseORM('sqlite://db.sqlite3',
+                                                        module_name='fill_in_table_words')
+                elif crud_func == 'TortoiseORM_v2':
+                    rez = await create_stat_TortoiseORM('sqlite://db.sqlite3',
+                                                        module_name='fill_in_table_words_v2')
+                end = datetime.now()
+                duration = end - start
+                execut_time[crud_func] = duration
+                str_ = f'Функция {func.__name__}("{crud_func}") выполнялась: {duration}'
+                print(str_)
+                logging.info(str_)
+                return rez
+            return execution_time
 
-        return execution_time
+        else:
+            def execution_time(*args, **kwargs):
+                rez = False
+                start = datetime.now()
+                if crud_func == 'django':
+                    rez = func(*args, **kwargs)
+                elif crud_func == 'SQLAlchemy':
+                    rez = create_stat_SQLalchemy('sqlite:///db.sqlite3')[0]
+                elif crud_func == 'django_v2':
+                    rez = fill_in_table_words_v2()
+                else:
+                    rez = func(*args, **kwargs)
+                end = datetime.now()
+                duration = end - start
+                execut_time[crud_func] = duration
+                str_ = f'Функция {func.__name__ if func else "от "}("{crud_func}") выполнялась: {duration}'
+                print(str_)
+                logging.info(str_)
+                return rez
+
+            return execution_time
     return decor
 
 

@@ -45,7 +45,6 @@ class Image(Base):
     query_text: Mapped[str] = mapped_column(Text)
     date: Mapped[datetime] = mapped_column(DateTime, default=datetime.now())
 
-    # user = relationship("User", backref="image")
 
     def __str__(self):
         return f"{self.user_id} - {self.image}"
@@ -145,8 +144,6 @@ def add_word(word: int, image_id=None) -> bool:
 
 def delete_all_words():
     try:
-        # i = db.query(Word).all()
-        # db.delete(i)
         i = str(db.execute(delete(Word)))
         i += ' | ' + str(db.execute(delete(Word_Image)))
         db.commit()
@@ -159,7 +156,7 @@ def delete_all_words():
 
 def get_all_words():
     """
-    Запрос всех слов для статистики с обратной сортировкой
+    Запрос всех слов для статистики
     """
     return db.query(Word).all()
 
