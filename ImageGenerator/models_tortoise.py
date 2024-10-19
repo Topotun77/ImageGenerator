@@ -55,3 +55,4 @@ class Word_Image(models.Model):
 
     class Meta:
         table = 'KandiGen_word_image'
+        

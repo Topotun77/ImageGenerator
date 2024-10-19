@@ -96,23 +96,33 @@ async def fill_in_table_words_v2() -> bool:
 
 
 async def create_stat_TortoiseORM(db_url="sqlite://db.sqlite3", module_name='fill_in_table_words_v2'):
-
-    await get_generate_schemas(db_url)
-    if __name__ == '__main__':
-        func_ = decor_time()
-        if module_name == 'fill_in_table_words':
-            func_ = func_(fill_in_table_words)
-        elif module_name == 'fill_in_table_words_v2':
-            func_ = func_(fill_in_table_words_v2)
-        await func_()
-    else:
-        if module_name == 'fill_in_table_words':
-            await fill_in_table_words()
-        elif module_name == 'fill_in_table_words_v2':
-            await fill_in_table_words_v2()
-
-    await Tortoise.close_connections()
-    return True
+    """
+    Пересчитать статистику по словам с использованием библиотеки TortoiseORM
+    :param db_url: путь к БД
+    :param module_name: функция расчета
+    :return: успех/неудача
+    """
+    rez = True
+    try:
+        await get_generate_schemas(db_url)
+        if __name__ == '__main__':
+            func_ = decor_time()
+            if module_name == 'fill_in_table_words':
+                func_ = func_(fill_in_table_words)
+            elif module_name == 'fill_in_table_words_v2':
+                func_ = func_(fill_in_table_words_v2)
+            await func_()
+        else:
+            if module_name == 'fill_in_table_words':
+                await fill_in_table_words()
+            elif module_name == 'fill_in_table_words_v2':
+                await fill_in_table_words_v2()
+    except Exception as err:
+        logging.info(f'ОШИБКА: {err}')
+        rez = False
+    finally:
+        await Tortoise.close_connections()
+    return rez
 
 
 async def get_images(user_id=None, all_user: bool = False):

@@ -63,6 +63,8 @@ def decor_time(crud_func=None):
                     rez = func(*args, **kwargs)
                 elif crud_func == 'SQLAlchemy':
                     rez = create_stat_SQLalchemy('sqlite:///db.sqlite3')[0]
+                elif crud_func == 'SQLAlchemy_v2':
+                    rez = create_stat_SQLalchemy('sqlite:///db.sqlite3', v2=True)[0]
                 elif crud_func == 'django_v2':
                     rez = fill_in_table_words_v2()
                 else:

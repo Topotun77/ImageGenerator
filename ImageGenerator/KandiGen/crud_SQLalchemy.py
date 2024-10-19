@@ -16,8 +16,14 @@ def get_metadata(db_='sqlite:///db2.sqlite3'):
     return engine_
 
 
-def create_stat_SQLalchemy(db_='sqlite:///db.sqlite3'):
-    from .utilities import decor_time, fill_in_table_words
+def create_stat_SQLalchemy(db_='sqlite:///db.sqlite3', v2=False):
+    """
+    Пересчитать статистику по словам с использованием библиотеки TortoiseORM
+    :param v2: Флаг расчета по второму алгоритму
+    :param db_: путь к БД
+    :return: картеж (успех/неудача, сессия)
+    """
+    from .utilities import decor_time, fill_in_table_words, fill_in_table_words_v2
     engine = get_metadata(db_)
 
     session = sessionmaker(bind=engine)
@@ -25,15 +31,23 @@ def create_stat_SQLalchemy(db_='sqlite:///db.sqlite3'):
     try:
         if __name__ == '__main__':
             func_ = decor_time()
-            func_ = func_(fill_in_table_words)
+            if v2:
+                func_ = func_(fill_in_table_words_v2)
+            else:
+                func_ = func_(fill_in_table_words)
             func_()
         else:
-            fill_in_table_words()
+            if v2:
+                fill_in_table_words_v2()
+            else:
+                fill_in_table_words()
         return True, db
+    except Exception as err:
+        logging.info(f'ОШИБКА: {err}')
+        return rez, None
     finally:
         db.close()
         engine.dispose()
-    return False, db
 
 
 class Image(Base):

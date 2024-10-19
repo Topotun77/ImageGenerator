@@ -8,6 +8,7 @@ execut_time = {
     'django': 0,
     'django_v2': 0,
     'SQLAlchemy': 0,
+    'SQLAlchemy_v2': 0,
     'TortoiseORM': 0,
     'TortoiseORM_v2': 0,
 }

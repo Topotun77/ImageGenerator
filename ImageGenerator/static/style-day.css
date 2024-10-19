@@ -5,6 +5,18 @@ body {
     background-attachment: fixed;
 }
 
+input[type='checkbox'] {
+  width: 20px;
+  height: 20px;
+  background-color: #6080f3;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 aside {
   width: 30%;
   padding-left: 0.5rem;

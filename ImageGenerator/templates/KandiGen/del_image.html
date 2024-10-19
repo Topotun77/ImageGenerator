@@ -37,15 +37,17 @@
         {% for itm in image_feeds %}
         <tr class="table_frame">
             <th class="table_frame td_frame" >
-                <label>
-                    <input type="checkbox" name="i{{ itm.id }}" value="i{{ itm.id }}">
-<!--                           onclick="document.getElementById('myForm').submit();">-->
+                <div class="container">
+                    <label for="chb">
                         <a href="{{ itm.image.url }}" target="_blank">
                             <img src="{{ itm.image.url }}"
                                  title="{{ itm.query_text }} &#10Автор: {{ itm.user }}"
                                  style="width: 100px; height: 100px;">
                         </a>
                     </label>
+                    <input type="checkbox" id="chb" name="i{{ itm.id }}" value="i{{ itm.id }}">
+<!--                           onclick="document.getElementById('myForm').submit();">-->
+                </div>
             </th>
             <th class="table_frame td_frame">
                 <h3 class="blue-text">
