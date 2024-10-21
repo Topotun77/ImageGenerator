@@ -9,6 +9,16 @@
 
 {% block content %}
     {{ block.super }}
+    <form method="post" id="search" action="{% url 'del_image' %}">
+        {% csrf_token %}
+        <div class="search">
+            <input type="text" class="search-field" name="search_txt"
+                   value="{{ query_txt }}"
+                   placeholder="Введите текст для поиска">
+            <img src="/static/search.png" alt="Поиск" class="search-icon"
+                 onclick="search.submit()">
+        </div>
+    </form>
     <h2>Выберите картинки для удаления</h2>
     <form method="post" id="myForm">
         {% csrf_token %}

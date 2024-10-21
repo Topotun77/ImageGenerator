@@ -32,6 +32,34 @@ input[type='checkbox']:checked {
   align-items: center;
 }
 
+.search {
+  display: inline-flex;
+  border: 1px solid #b0b0b0;
+  border-radius: 30px;
+  padding: 10px;
+  align-items: center;
+  background-color: RGB(0, 0, 0, 1);
+  input, textarea {
+    background-color: RGB(0, 0, 0, 1);
+  }
+}
+
+.search-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  order: -1;
+}
+
+.search-field {
+  width: 300px;
+  border: 0;
+}
+
+.search-field:focus {
+  outline: none;
+}
+
 a:link {color: #5050f3;}
 a:visited {color: #6080f3;}
 a:hover {color: #5050f3;}

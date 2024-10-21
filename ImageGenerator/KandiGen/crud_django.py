@@ -52,17 +52,24 @@ def set_page_num_for_user(user_id, page_num=PAGE_DEFAULT):
         raise
 
 
-def get_images(user_id=None, all_user: bool = False):
+def get_images(user_id=None, all_user: bool = False, query: str | None = None):
     """
     Запрос объектов таблицы Image (картинок) по одному или по всем пользователям
+    :param query: текст запроса для поиска
     :param user_id: ID пользователя
     :param all_user: флаг выборки по всем пользователям для галереи
     :return: результат запроса, список объектов таблицы Image
     """
     if all_user:
-        images = Image.objects.all().order_by('-date')
+        if query:
+            images = Image.objects.filter(query_text__iregex=query.lower()).order_by('-date')
+        else:
+            images = Image.objects.all().order_by('-date')
     elif user_id:
-        images = Image.objects.filter(user=user_id).order_by('-date')
+        if query:
+            images = Image.objects.filter(user=user_id, query_text__iregex=query.lower()).order_by('-date')
+        else:
+            images = Image.objects.filter(user=user_id).order_by('-date')
     else:
         images = []
     return images

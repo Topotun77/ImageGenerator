@@ -142,8 +142,13 @@ def gen(request: HttpRequest):
 def del_image(request: HttpRequest):
     team = utilities.check_team(request)
     context = {'day_team': team}
-    image_feeds = crud_django.get_images(user_id=request.user)
     if request.method == 'POST':
+        search_txt = request.POST.get('search_txt')
+        if search_txt:
+            image_feeds = crud_django.get_images(user_id=request.user, query=search_txt)
+            context = {**context, 'query_txt': search_txt}
+        else:
+            image_feeds = crud_django.get_images(user_id=request.user)
         image_id = request.POST.get('image_del')
         if image_id == 'checked':
             for im in image_feeds:
@@ -152,7 +157,10 @@ def del_image(request: HttpRequest):
                     crud_django.delete_image(im.id)
         else:
             crud_django.delete_image(image_id)
-        return redirect('del_image')
+        if not search_txt:
+            return redirect('del_image')
+    else:
+        image_feeds = crud_django.get_images(user_id=request.user)
     context = {
         **context,
         'image_feeds': image_feeds,
