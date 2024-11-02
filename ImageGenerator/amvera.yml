@@ -1,0 +1,11 @@
+meta:
+  environment: python
+  toolchain:
+    name: pip
+    version: 3.12
+build:
+  requirementsPath: requirements.txt
+run:
+  persistenceMount: /
+  containerPort: 80
+  command: cd ImageGenerator && gunicorn ImageGenerator.wsgi:application  --bind 0.0.0.0:80

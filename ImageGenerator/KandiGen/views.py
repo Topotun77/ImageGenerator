@@ -9,7 +9,8 @@ from django.http import HttpRequest
 from .forms import ImageGenForm
 from . import crud_django
 from . import utilities
-from __main__ import execut_time
+# from __main__ import execut_time
+from ImageGenerator.wsgi import execut_time
 
 # Create your views here.
 
@@ -182,3 +183,16 @@ def recreate_stat(request: HttpRequest):
         else:
             func()
     return redirect('stat')
+
+
+
+
+
+# # на стороне клиента через шаблонизатор
+# # src="{{ url_for('serve_file', filename=current_user.avatar_path) }}"
+# # На стороне сервера
+# @app.route('/files/<path:filename>')
+# def serve_file(filename):
+#     file_path = os.path.join(DATA_FOLDER, filename)
+#     return send_file(file_path)
+# # send_file отдает сам файл в клиента.

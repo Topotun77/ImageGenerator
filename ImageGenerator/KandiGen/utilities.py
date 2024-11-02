@@ -9,7 +9,8 @@ from .crud_django import (get_team_for_user, set_team_for_user, TEAM_DEFAULT,
 from .crud_SQLalchemy import create_stat_SQLalchemy
 from .crud_TortoiseORM import create_stat_TortoiseORM
 from . import kandinsky
-from __main__ import execut_time
+# from __main__ import execut_time
+from ImageGenerator.wsgi import execut_time
 
 
 def decor_log(txt=''):

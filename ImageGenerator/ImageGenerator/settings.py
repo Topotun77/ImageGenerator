@@ -28,8 +28,9 @@ INTERNAL_IPS = [
     '127.0.0.1',
 ]
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['imagegenerator-topotun77.amvera.io', '127.0.0.1']
 
+CSRF_TRUSTED_ORIGINS = ['https://imagegenerator-topotun77.amvera.io']
 
 # Application definition
 
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'ImageGenerator.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [BASE_DIR / 'templates', '/ImageGenerator/templates', '/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -121,8 +122,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),]
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field

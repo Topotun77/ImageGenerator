@@ -14,9 +14,11 @@
     {% if day_team %}
       <link rel="stylesheet" type="text/css" href='{% static "style-day.css" %}'>
     {% else %}
+<!--      <link rel="stylesheet" type="text/css" href='KandiGen/style-night.css'>-->
       <link rel="stylesheet" type="text/css" href='{% static "style-night.css" %}'>
     {% endif %}
-    <link rel="icon" href="{% static 'favicon.png' %}" />
+    <link rel="icon" href="{% static 'favicon.ico' %}" />
+<!--    <link rel="icon" href="{% static 'favicon.png' %}" />-->
 
 </head>
 <body>
@@ -27,9 +29,10 @@
         <h2 class="align_left">
             <a href="?day={{day_team}}">
                 {% if day_team %}
-                  <img src="/static/day.png" width="40">
+                  <img src="{% static 'day.png' %}" width="40">
                 {% else %}
-                  <img src="/static/night.png" width="40">
+<!--                  <img src="KandiGen/night.png" width="40">-->
+                  <img src="{% static 'night.png' %}" width="40">
                 {% endif %}
             </a>
         </h2>
